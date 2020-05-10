@@ -56,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // ),
                       SizedBox(height: SizeConfig.blockSizeVertical * 2),
                       TextFormField(
+                        controller: registrationProvider.emailController,
                         decoration: Style.inputDecoration('Email'),
                         validator: (v) {
                           if (v.isEmpty) {
