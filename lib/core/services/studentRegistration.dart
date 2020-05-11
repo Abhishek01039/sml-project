@@ -17,6 +17,7 @@ class RegistraionServices extends BaseApi {
       //   return true;
     });
     if (docReference.documentID != null) {
+      print(docReference.documentID);
       return true;
     }
     // then((value) {
