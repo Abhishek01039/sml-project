@@ -5,6 +5,7 @@ import 'package:qr_app/core/provider/auth_provider.dart';
 import 'package:qr_app/core/services/api.dart';
 import 'package:qr_app/core/services/auth_service.dart';
 import 'package:qr_app/core/services/base_api.dart';
+import 'package:qr_app/core/services/studentRegistration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/provider/base_provider.dart';
@@ -18,5 +19,6 @@ void setpLocator() {
   locator.registerFactory(() => Api());
   locator.registerFactory(() => Student());
   locator.registerFactory(() => SPHelper());
+  locator.registerFactory(() => RegistraionServices());
   locator.registerFactory(() async => await SharedPreferences.getInstance());
 }

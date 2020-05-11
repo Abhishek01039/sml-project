@@ -25,7 +25,7 @@ class _MySpalshScreenState extends State<MySpalshScreen>
 
     Timer(Duration(seconds: 2), () {
       //loadData();
-      // SPHelper.logout();
+      SPHelper.logout();
       // print(SPHelper.getString("email"));
       SPHelper.getString("email").isEmpty
           ? Navigator.pushReplacementNamed(context, "welcome")

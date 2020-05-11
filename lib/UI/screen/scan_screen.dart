@@ -8,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:qr_app/core/services/api.dart';
 import 'package:qr_app/locator.dart';
 
-
 import 'package:qr_app/ui/screen/widgets/primary_button.dart';
 import 'package:qr_app/UI/shared/style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +27,6 @@ class _ScanScreenState extends State<ScanScreen> {
   TextEditingController _message = new TextEditingController();
   // StreamSubscription<Position> positionStream;
 
-  Api _api = locator<Api>();
   String location;
   var result;
   @override
@@ -69,8 +67,9 @@ class _ScanScreenState extends State<ScanScreen> {
 
   Future<Null> verifyLocation() async {
     // print("hello");
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-      // print(position);
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
+    // print(position);
     if (position.longitude > collegeStartlongitude &&
         position.longitude < collegeEndlongitude &&
         position.latitude > collegeStartlatitude &&
@@ -119,107 +118,116 @@ class _ScanScreenState extends State<ScanScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Qr Code Scanner"),
-      ),
-      body: RefreshIndicator(
-        backgroundColor: Colors.brown,
-        onRefresh: verifyLocation,
-        child: location == "You are in College"
-            ? result != null
-                ? SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Form(
-                        key: _key,
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              result.rawContent,
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            TextFormField(
-                              controller: _message,
-                              maxLines: null,
-                              decoration: Style.inputDecoration('Message'),
-                              validator: (v) {
-                                if (v.isEmpty) {
-                                  return 'input require';
-                                } else
-                                  return null;
-                              },
-                            ),
-                          ],
+    return Container(
+      child: location == "You are in College"
+          ? result != null
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _key,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          result.rawContent,
+                          style: TextStyle(fontSize: 30),
                         ),
+                        TextFormField(
+                          controller: _message,
+                          maxLines: null,
+                          decoration: Style.inputDecoration('Message'),
+                          validator: (v) {
+                            if (v.isEmpty) {
+                              return 'input require';
+                            } else
+                              return null;
+                          },
+                        ),
+                        result != null
+                            ? result.rawContent != ""
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    child: PrimaryButton(
+                                      onTap: () {
+                                        if (_key.currentState.validate()) {
+                                          SharedPreferences.getInstance()
+                                              .then((value) {
+                                            var id = value.getString("ID");
+                                            var name =
+                                                value.getString("studentName");
+                                            String body = jsonEncode({
+                                              "message": _message.text,
+                                              "name": name,
+                                              "id": id
+                                            });
+                                            // _api.httpPost("message", body);
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        'Send Message',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 21),
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    child: PrimaryButton(
+                                      onTap: () async {
+                                        _barCodeScan();
+                                        // await _scanBarcodeSecondTime();
+                                      },
+                                      child: Text(
+                                        'Scan QR Code',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 21),
+                                      ),
+                                    ),
+                                  )
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                      // strokeWidth: 20,
                       ),
-                    ),
-                  )
-                : Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 20,
-                    ),
-                  )
-            : SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Center(
-                  child: Container(
-                    child: Text(
-                      "You are not in College",
-                      style: TextStyle(fontSize: 30),
+                )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Container(
+                      // color: Colors.red,
+                      child: Text(
+                        location != null ? location.toString() : "Please wait",
+                        style: TextStyle(fontSize: 30),
+                      ),
                     ),
                   ),
                 ),
-              ),
-        // : Visibility(
-        //     visible: true,
-
-        //     child: Text("data"),
-        //   ),
-      ),
-      bottomNavigationBar: result != null
-          ? result.rawContent != ""
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: PrimaryButton(
-                    onTap: () {
-                      if (_key.currentState.validate()) {
-                        SharedPreferences.getInstance().then((value) {
-                          var id = value.getString("ID");
-                          var name = value.getString("studentName");
-                          String body = jsonEncode({
-                            "message": _message.text,
-                            "name": name,
-                            "id": id
-                          });
-                          // _api.httpPost("message", body);
-                        });
-                      }
-                    },
+                    onTap: verifyLocation,
                     child: Text(
-                      'Send Message',
+                      'Varify Location',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 21),
                     ),
                   ),
-                )
-              : Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  child: PrimaryButton(
-                    onTap: () async {
-                      _barCodeScan();
-                      // await _scanBarcodeSecondTime();
-                    },
-                    child: Text(
-                      'Scan QR Code',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 21),
-                    ),
-                  ),
-                )
-          : Container(),
+                ),
+              ],
+            ),
     );
   }
 }

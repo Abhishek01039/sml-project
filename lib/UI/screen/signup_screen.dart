@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_app/UI/shared/commonUtility.dart';
 import 'package:qr_app/core/provider/registraion_provider.dart';
 import 'package:qr_app/ui/screen/widgets/size_config.dart';
 import 'package:qr_app/ui/screen/widgets/primary_button.dart';
@@ -20,6 +21,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         return Scaffold(
           body: ListView(
             children: <Widget>[
+              SizedBox(
+                height: SizeConfig.screenHeight * 0.1,
+              ),
+              Center(
+                child: Text(
+                  'Registration',
+                  style: Style.appNameTextStyle,
+                ),
+              ),
               SizedBox(
                 height: SizeConfig.screenHeight * 0.1,
               ),
@@ -61,8 +71,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         validator: (v) {
                           if (v.isEmpty) {
                             return 'input require';
-                          // } else if (!registrationProvider.isEmail(v)) {
-                          //   return 'email invalide';
+                          } else if (!isEmail(v)) {
+                            return 'email invalide';
                           } else
                             return null;
                         },

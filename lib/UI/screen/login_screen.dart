@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_app/UI/shared/commonUtility.dart';
 import 'package:qr_app/UI/shared/style.dart';
 import 'package:qr_app/core/provider/auth_provider.dart';
 import 'package:qr_app/ui/screen/widgets/primary_button.dart';
@@ -15,16 +16,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _key = GlobalKey<FormState>();
-  final _scafoldkey = GlobalKey<ScaffoldState>();
-
-  static bool isEmail(String em) {
-    String p =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(p);
-    return regExp.hasMatch(em);
-  }
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -32,8 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, _) {
         return Scaffold(
-          key: _scafoldkey,
-          
+          key: authProvider.scafoldkey,
           body: ListView(
             children: <Widget>[
               SizedBox(
@@ -52,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: SizeConfig.blockSizeHorizontal * 4),
                 child: Form(
-                  key: _key,
+                  key: authProvider.key,
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: SizeConfig.blockSizeVertical * 2),
@@ -92,23 +82,24 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: EdgeInsets.symmetric(vertical: 12),
             child: PrimaryButton(
               onTap: () async {
-                if (_key.currentState.validate()) {
-                  _key.currentState.save();
-                  print('is validate');
-                  var login = await authProvider.login(
-                      authProvider.email.text, authProvider.password.text);
-                  if (login) {
-                    Navigator.of(context)
-                        .pushReplacementNamed(MainScreen.routeName);
-                  } else
-                    _scafoldkey.currentState.showSnackBar(
-                      SnackBar(
-                        content:
-                            Text(Provider.of<AuthProvider>(context).message),
-                      ),
-                    );
-                } else
-                  print('is not validate');
+                // if (_key.currentState.validate()) {
+                //   _key.currentState.save();
+                //   print('is validate');
+                //   var login = await authProvider.login(
+                //       authProvider.email.text, authProvider.password.text);
+                //   if (login) {
+                //     Navigator.of(context)
+                //         .pushReplacementNamed(MainScreen.routeName);
+                //   } else
+                //     _scafoldkey.currentState.showSnackBar(
+                //       SnackBar(
+                //         content:
+                //             Text(Provider.of<AuthProvider>(context).message),
+                //       ),
+                //     );
+                // } else
+                //   print('is not validate');
+                authProvider.login(context);
               },
               child: Text(
                 'Login',

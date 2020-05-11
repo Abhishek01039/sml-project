@@ -11,25 +11,38 @@ class AuthService extends BaseApi {
     // return await api.httpGet('user');
   }
 
-  Future<Student> login(String ename) async {
+  Future<Student> login(String email, String password) async {
     // String body = jsonEncode({'email': email, 'password': password});
-    instance
+    QuerySnapshot qsnap = await instance
         .collection("Student")
-        .where("email", isEqualTo: ename)
-        .getDocuments()
-        .then((value) {
-      if (value.documents.length > 0) {
-        // return student.fromJson(value.documents.first);
-      } else {}
-    });
-    return null;
+        .where("email", isEqualTo: email)
+        .where("password", isEqualTo: password)
+        .getDocuments();
+
+    print(qsnap.documents.length);
+    if (qsnap.documents.length > 0) {
+      var id = qsnap.documents.first.documentID;
+      var stud = qsnap.documents.first.data;
+      stud['id'] = id;
+      print(stud);
+      student = Student.fromJson(stud);
+      return student;
+      // return true;
+    } else {
+      return null;
+    }
+    // }).catchError((e) {
+    //   print(e);
+    //   return e;
+    // });
+    // return null;
     // return await api.httpPost('login', body);
   }
 
-  registerStudent() {
-    Map data = {};
-    instance.collection("Student").document().setData(data);
-  }
+  // registerStudent() {
+  //   Map data = {};
+  //   instance.collection("Student").document().setData(data);
+  // }
 
   // Future<http.Response> logout() async {
   //   return await api.httpPost('logout', {});

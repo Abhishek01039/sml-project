@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Api {
   static final _api = Api._internal();
 
@@ -8,7 +6,6 @@ class Api {
   }
   Api._internal();
 
-  
   // Future<http.Response> sendMessage(String endPath, String body) {
   //   Uri uri = Uri.http(baseUrl, '$path/$endPath');
   //   http.post(uri, body: body, headers: {
