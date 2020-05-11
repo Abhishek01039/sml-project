@@ -1,4 +1,4 @@
-//TODO just put your code here.
+//TODO just put your profile code here.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_app/core/provider/profile_provider.dart';
