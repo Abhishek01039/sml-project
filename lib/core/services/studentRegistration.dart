@@ -6,7 +6,8 @@ import 'package:qr_app/core/services/base_api.dart';
 class RegistraionServices extends BaseApi {
   final instance = Firestore.instance.collection("Student");
 
-  Future<bool> registration(String name, String email, String password) async {
+  Future<String> registration(
+      String name, String email, String password) async {
     DocumentReference docReference = instance.document();
     await docReference.setData({
       "name": name,
@@ -18,7 +19,7 @@ class RegistraionServices extends BaseApi {
     });
     if (docReference.documentID != null) {
       print(docReference.documentID);
-      return true;
+      return docReference.documentID;
     }
     // then((value) {
     //   print(docReference.documentID);
@@ -31,7 +32,7 @@ class RegistraionServices extends BaseApi {
     //   print(e);
     //   return false;
     // });
-    return false;
+    return "";
     // return ;
     // return ;
   }

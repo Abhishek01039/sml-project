@@ -23,7 +23,8 @@ class RegistrationProvider extends BaseProvider {
               passwordController.text)
           .then((value) {
         Navigator.pop(context);
-        if (value) {
+        if (value != "") {
+          SPHelper.setString("ID", value);
           SPHelper.setString("email", emailController.text);
           SPHelper.setString("name", nameController.text);
           Navigator.pushReplacementNamed(context, 'main');

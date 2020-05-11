@@ -31,20 +31,9 @@ class AuthService extends BaseApi {
     } else {
       return null;
     }
-    // }).catchError((e) {
-    //   print(e);
-    //   return e;
-    // });
-    // return null;
-    // return await api.httpPost('login', body);
   }
 
-  // registerStudent() {
-  //   Map data = {};
-  //   instance.collection("Student").document().setData(data);
-  // }
-
-  // Future<http.Response> logout() async {
-  //   return await api.httpPost('logout', {});
-  // }
+  getStudentById(){
+    
+  }
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_app/UI/screen/shared_pref.dart';
 import 'package:qr_app/core/provider/auth_provider.dart';
 import 'package:qr_app/core/provider/message_provider.dart';
+import 'package:qr_app/core/provider/profile_provider.dart';
 import 'package:qr_app/locator.dart';
 import 'package:qr_app/core/provider/registraion_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(builder: (_) => RegistrationProvider()),
         ChangeNotifierProvider(builder: (_) => AuthProvider()),
         ChangeNotifierProvider(builder: (_) => MessageProvider()),
+        ChangeNotifierProvider(builder: (_) => ProfileProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

@@ -3,9 +3,11 @@ import 'package:qr_app/UI/screen/shared_pref.dart';
 import 'package:qr_app/core/models/student.dart';
 import 'package:qr_app/core/provider/auth_provider.dart';
 import 'package:qr_app/core/provider/message_provider.dart';
+import 'package:qr_app/core/provider/profile_provider.dart';
 import 'package:qr_app/core/services/api.dart';
 import 'package:qr_app/core/services/auth_service.dart';
 import 'package:qr_app/core/services/base_api.dart';
+import 'package:qr_app/core/services/profile_service.dart';
 import 'package:qr_app/core/services/studentRegistration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/services/message_services.dart';
@@ -22,6 +24,8 @@ void setpLocator() {
   locator.registerFactory(() => SPHelper());
   locator.registerFactory(() => MessageProvider());
   locator.registerFactory(() => MessageServices());
+  locator.registerFactory(() => ProfileProvider());
+  locator.registerFactory(() => ProfileService());
   locator.registerFactory(() => RegistraionServices());
   locator.registerFactory(() async => await SharedPreferences.getInstance());
 }
