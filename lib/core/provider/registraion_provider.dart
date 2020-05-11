@@ -15,7 +15,7 @@ class RegistrationProvider extends BaseProvider {
   final instance = Firestore.instance.collection("Student");
   final key = GlobalKey<FormState>();
 
-  registration(BuildContext context) {
+  registration(BuildContext context) async {
     if (key.currentState.validate()) {
       cirularAlertDialog(context);
       _registraionServices

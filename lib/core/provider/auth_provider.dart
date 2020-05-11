@@ -59,6 +59,7 @@ class AuthProvider extends BaseProvider {
           showFlutterToast("Invalid credentials");
         } else {
           SPHelper.setString("email", email.text);
+          SPHelper.setString("name", student.name);
           // SPHelper.setString("email", email.text);
           showFlutterToast("Login successfully");
           Navigator.of(context).pushNamedAndRemoveUntil(

@@ -5,12 +5,11 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:qr_app/core/services/api.dart';
-import 'package:qr_app/locator.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_app/core/provider/message_provider.dart';
 
 import 'package:qr_app/ui/screen/widgets/primary_button.dart';
 import 'package:qr_app/UI/shared/style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ScanScreen extends StatefulWidget {
   static final routeName = 'scanScreen';
@@ -19,12 +18,11 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  final _key = GlobalKey<FormState>();
   double collegeStartlongitude = 70.8310538;
   double collegeStartlatitude = 20.2217161;
   double collegeEndlongitude = 73.8313038;
   double collegeEndlatitude = 23.2237121;
-  TextEditingController _message = new TextEditingController();
+
   // StreamSubscription<Position> positionStream;
 
   String location;
@@ -124,110 +122,113 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: location == "You are in College"
-          ? result != null
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key: _key,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          result.rawContent,
-                          style: TextStyle(fontSize: 30),
+    return Consumer<MessageProvider>(
+      builder: (context, messageProvider, _) {
+        return SingleChildScrollView(
+          child: location == "You are in College"
+              ? result != null
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Form(
+                        key: messageProvider.key,
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              result.rawContent,
+                              style: TextStyle(fontSize: 30),
+                            ),
+                            TextFormField(
+                              controller: messageProvider.messageController,
+                              maxLines: null,
+                              decoration: Style.inputDecoration('Message'),
+                              validator: (v) {
+                                if (v.isEmpty) {
+                                  return 'input require';
+                                } else
+                                  return null;
+                              },
+                            ),
+                            result != null
+                                ? result.rawContent != ""
+                                    ? Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 12),
+                                        child: PrimaryButton(
+                                          onTap: () {
+                                            // if (_key.currentState.validate()) {
+                                            //   SharedPreferences.getInstance()
+                                            //       .then((value) {
+
+                                            //     // _api.httpPost("message", body);
+                                            //   });
+                                            // }
+                                            messageProvider
+                                                .sendMessage(context);
+                                          },
+                                          child: Text(
+                                            'Send Message',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 21),
+                                          ),
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 12),
+                                        child: PrimaryButton(
+                                          onTap: () async {
+                                            _barCodeScan();
+                                            // await _scanBarcodeSecondTime();
+                                          },
+                                          child: Text(
+                                            'Scan QR Code',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 21),
+                                          ),
+                                        ),
+                                      )
+                                : Container(),
+                          ],
                         ),
-                        TextFormField(
-                          controller: _message,
-                          maxLines: null,
-                          decoration: Style.inputDecoration('Message'),
-                          validator: (v) {
-                            if (v.isEmpty) {
-                              return 'input require';
-                            } else
-                              return null;
-                          },
+                      ),
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(
+                          // strokeWidth: 20,
+                          ),
+                    )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Container(
+                          // color: Colors.red,
+                          child: Text(
+                            location != null
+                                ? location.toString()
+                                : "Please wait",
+                            style: TextStyle(fontSize: 30),
+                          ),
                         ),
-                        result != null
-                            ? result.rawContent != ""
-                                ? Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12),
-                                    child: PrimaryButton(
-                                      onTap: () {
-                                        if (_key.currentState.validate()) {
-                                          SharedPreferences.getInstance()
-                                              .then((value) {
-                                            var id = value.getString("ID");
-                                            var name =
-                                                value.getString("studentName");
-                                            String body = jsonEncode({
-                                              "message": _message.text,
-                                              "name": name,
-                                              "id": id
-                                            });
-                                            // _api.httpPost("message", body);
-                                          });
-                                        }
-                                      },
-                                      child: Text(
-                                        'Send Message',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 21),
-                                      ),
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12),
-                                    child: PrimaryButton(
-                                      onTap: () async {
-                                        _barCodeScan();
-                                        // await _scanBarcodeSecondTime();
-                                      },
-                                      child: Text(
-                                        'Scan QR Code',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 21),
-                                      ),
-                                    ),
-                                  )
-                            : Container(),
-                      ],
-                    ),
-                  ),
-                )
-              : Center(
-                  child: CircularProgressIndicator(
-                      // strokeWidth: 20,
-                      ),
-                )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Container(
-                      // color: Colors.red,
-                      child: Text(
-                        location != null ? location.toString() : "Please wait",
-                        style: TextStyle(fontSize: 30),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PrimaryButton(
-                    onTap: verifyLocation,
-                    child: Text(
-                      'Varify Location',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 21),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PrimaryButton(
+                        onTap: verifyLocation,
+                        child: Text(
+                          'Varify Location',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 21),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+        );
+      },
     );
   }
 }
