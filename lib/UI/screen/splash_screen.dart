@@ -25,10 +25,11 @@ class _MySpalshScreenState extends State<MySpalshScreen>
 
     Timer(Duration(seconds: 2), () {
       //loadData();
+      // SPHelper.logout();
       // print(SPHelper.getString("email"));
-      SPHelper.getString("email") == null
-          ? Navigator.pushReplacementNamed(context, "main")
-          : Navigator.pushReplacementNamed(context, "welcome");
+      SPHelper.getString("email").isEmpty
+          ? Navigator.pushReplacementNamed(context, "welcome")
+          : Navigator.pushReplacementNamed(context, "main");
     });
   }
 
