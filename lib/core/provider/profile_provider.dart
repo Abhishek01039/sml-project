@@ -11,6 +11,6 @@ class ProfileProvider extends BaseProvider {
   // }
   profile() async {
     student = await profileService.profile();
-    print(student);
+    print(student.name);
   }
 }

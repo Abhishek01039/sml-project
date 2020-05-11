@@ -9,15 +9,16 @@ class ProfileService extends BaseApi {
   Student student = locator<Student>();
   Future<Student> profile() async {
     String id = SPHelper.getString("ID");
+    print(id);
     DocumentSnapshot qsnap =
         await instance.collection("Student").document(id).get();
 
-    print(qsnap.data);
+    // print(qsnap.data);
 
     // var id = qsnap.data.first.documentID;
     var stud = qsnap.data;
 
-    print(stud);
+    // print(stud);
     student = Student.fromJson(stud);
     return student;
     // return true;
