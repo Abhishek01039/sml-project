@@ -7,6 +7,8 @@ import 'package:qr_app/locator.dart';
 class ProfileService extends BaseApi {
   final instance = Firestore.instance;
   Student student = locator<Student>();
+  final instancePath = Firestore.instance.collection("Student");
+
   Future<Student> profile() async {
     String id = SPHelper.getString("ID");
     print(id);
@@ -22,5 +24,15 @@ class ProfileService extends BaseApi {
     student = Student.fromJson(stud);
     return student;
     // return true;
+  }
+
+  updateStudentName(String id, String name) async {
+    DocumentReference docReference = instancePath.document(id);
+    await docReference.updateData({
+      "name": name,
+    }).then((value) {
+      print(docReference.documentID);
+    });
+    return true;
   }
 }

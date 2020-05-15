@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:qr_app/UI/screen/shared_pref.dart';
+
 import 'package:qr_app/UI/shared/commonUtility.dart';
 import 'package:qr_app/core/provider/base_provider.dart';
 import 'package:qr_app/core/services/message_services.dart';
-import 'package:qr_app/core/services/studentRegistration.dart';
+
 import 'package:qr_app/locator.dart';
 
 class MessageProvider extends BaseProvider {
