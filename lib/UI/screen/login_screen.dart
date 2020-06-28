@@ -7,8 +7,6 @@ import 'package:qr_app/ui/screen/widgets/size_config.dart';
 
 import 'package:provider/provider.dart';
 
-import 'main_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   static final routeName = 'login';
   @override

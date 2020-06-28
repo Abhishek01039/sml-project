@@ -19,12 +19,12 @@ class AuthService extends BaseApi {
         .where("password", isEqualTo: password)
         .getDocuments();
 
-    print(qsnap.documents.length);
+    // print(qsnap.documents.length);
     if (qsnap.documents.length > 0) {
       var id = qsnap.documents.first.documentID;
       var stud = qsnap.documents.first.data;
       stud['id'] = id;
-      print(stud);
+      // print(stud);
       student = Student.fromJson(stud);
       return student;
       // return true;
@@ -33,7 +33,5 @@ class AuthService extends BaseApi {
     }
   }
 
-  getStudentById(){
-    
-  }
+  getStudentById() {}
 }

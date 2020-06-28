@@ -16,7 +16,7 @@ class ProfileProvider extends BaseProvider {
   // }
   profile() async {
     student = await profileService.profile();
-    print(student.name);
+    // print(student.name);
     return student;
   }
 
@@ -26,7 +26,7 @@ class ProfileProvider extends BaseProvider {
       bool value = await profileService.updateStudentName(
           SPHelper.getString("ID"), changeNameController.text);
       Navigator.pop(context);
-      print(value);
+      // print(value);
       if (value) {
         changeNameController.clear();
         Navigator.pop(context);

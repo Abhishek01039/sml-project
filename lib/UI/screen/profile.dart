@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_app/UI/screen/shared_pref.dart';
 import 'package:qr_app/UI/screen/welcome_screen.dart';
@@ -7,8 +8,14 @@ import 'package:qr_app/UI/screen/widgets/size_config.dart';
 import 'package:qr_app/UI/shared/style.dart';
 import 'package:qr_app/core/provider/profile_provider.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   static final routeName = 'profile';
+
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     showNameDialog(BuildContext context, ProfileProvider profileProvider) {
@@ -45,7 +52,9 @@ class Profile extends StatelessWidget {
             ),
           ],
         ),
-      );
+      ).then((value) {
+        setState(() {});
+      });
     }
 
     return Consumer<ProfileProvider>(

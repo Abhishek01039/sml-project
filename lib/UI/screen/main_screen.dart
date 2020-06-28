@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+
 import 'package:qr_app/UI/screen/home_screen.dart';
 import 'package:qr_app/UI/screen/profile.dart';
 import 'package:qr_app/ui/screen/scan_screen.dart';
-import 'package:qr_app/UI/shared/style.dart';
 
 class MainScreen extends StatefulWidget {
   static final routeName = 'main';
@@ -15,7 +14,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
-    HomeScreen(),
+    HomepageScreen(),
     ScanScreen(),
     Profile(),
   ];

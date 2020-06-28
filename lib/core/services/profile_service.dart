@@ -31,7 +31,7 @@ class ProfileService extends BaseApi {
     await docReference.updateData({
       "name": name,
     }).then((value) {
-      print(docReference.documentID);
+      // print(docReference.documentID);
     });
     return true;
   }

@@ -52,11 +52,7 @@ class _MySpalshScreenState extends State<MySpalshScreen>
     //_showProgress();
     return Scaffold(
       body: Center(
-        //TODO put your logo here
-        child: Padding(
-          padding: const EdgeInsets.all(100.0),
-          child: Text("data"),
-        ),
+        child: Image.asset("assets/photo_2020-05-17_22-10-58.jpg"),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

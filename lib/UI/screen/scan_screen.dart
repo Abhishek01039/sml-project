@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +17,10 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  double collegeStartlongitude = 70.8310538;
-  double collegeStartlatitude = 20.2217161;
-  double collegeEndlongitude = 73.8313038;
-  double collegeEndlatitude = 23.2237121;
+  double collegeStartlongitude = 71.023423400;
+  double collegeStartlatitude = 20.65665;
+  double collegeEndlongitude = 73.456456;
+  double collegeEndlatitude = 22.1000;
 
   // StreamSubscription<Position> positionStream;
 
@@ -30,6 +29,7 @@ class _ScanScreenState extends State<ScanScreen> {
   @override
   void initState() {
     super.initState();
+    print("sdfa");
     verifyLocation();
   }
 
@@ -67,7 +67,8 @@ class _ScanScreenState extends State<ScanScreen> {
     // print("hello");
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-    // print(position);
+    print(position.latitude);
+
     if (position.longitude > collegeStartlongitude &&
         position.longitude < collegeEndlongitude &&
         position.latitude > collegeStartlatitude &&
@@ -82,7 +83,7 @@ class _ScanScreenState extends State<ScanScreen> {
     } else {
       setState(() {
         location = "You are not in College";
-        print("You are not in College");
+        // print("You are not in College");
       });
     }
   }

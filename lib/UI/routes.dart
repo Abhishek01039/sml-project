@@ -30,7 +30,7 @@ class Router {
       case 'profile':
         return MaterialPageRoute(builder: (_) => Profile());
       case 'home':
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => HomepageScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

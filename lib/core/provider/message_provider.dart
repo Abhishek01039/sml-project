@@ -18,7 +18,7 @@ class MessageProvider extends BaseProvider {
       cirularAlertDialog(context);
       bool value = await messageServices.message(messageController.text);
       Navigator.pop(context);
-      print(value);
+      // print(value);
       if (value) {
         Navigator.pushReplacementNamed(context, 'main');
         showFlutterToast("Message has been sent.");
